@@ -1,0 +1,3 @@
+#list of files to generate client package
+#one file per line
+client.py

@@ -1,0 +1,21 @@
+INFO:Controller:initializing
+INFO:ClientManager:initializing
+INFO:JobManager:initializing
+INFO:FileManager:initializing
+INFO:Controller:parsing config file config/config.py
+INFO:ClientManager:adding client tron
+INFO:Client:tron:initializing
+INFO:FileManager:adding file: file1.txt
+INFO:FileManager:adding file: outfile.txt
+INFO:JobManager:adding job
+INFO:ClientManager:trying to start all clients
+INFO:Client:tron:checking for client
+INFO:Client:tron:running ssh command: ssh tron ls '.cmanager/client.py' 2>/dev/null
+INFO:Client:tron:client found
+INFO:Client:tron:starting agent
+INFO:Client:tron:running ssh command: ssh tron "DISPLAY=:0 python .cmanager/client.py" &
+INFO:Client:tron:sending file: data/file1.txt
+INFO:Client:tron:destination: .cmanager/data
+INFO:ClientManager:trying to stop all clients
+INFO:Client:tron:stopping agent
+INFO:Client:tron:running ssh command: ssh tron "DISPLAY=:0 killall python" &
