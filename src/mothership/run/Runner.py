@@ -1,18 +1,22 @@
 '''
 Created on Sep 14, 2009
 
-@author: juanmarcus
+@author: Juan Ibiapina
 '''
 from Queue import Queue
 from mothership.run.JobRunner import JobRunner
+import logging
 
 class Runner(object):
     def __init__(self, controller):
+        self.logger = logging.getLogger("Runner")
+        self.logger.info("initializing")
         self.controller = controller
         self.jobmanager = self.controller.getJobManager()
         self.clientmanager = self.controller.getClientManager()
         
     def runAllJobs(self):
+        self.logger.info("starting JobRunners")
         joblist = self.jobmanager.getJobList()
         clients = self.clientmanager.getClients()
         
@@ -29,6 +33,7 @@ class Runner(object):
             runner.start()
             
         #wait for all runners to finish
+        self.logger.info("waiting for completion")
         self.queue.join()
             
         

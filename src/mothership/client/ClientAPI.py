@@ -10,6 +10,9 @@ class ClientAPI(object):
         
     def turnOnMonitor(self):
         self.remoteobj.turnOnMonitor()
+
+    def stop(self):
+        self.remoteobj.stop()
         
     def runJob(self, job):
         return self.remoteobj.runJob(job)

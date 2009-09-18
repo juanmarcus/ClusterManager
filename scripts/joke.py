@@ -11,11 +11,21 @@ def run(api):
     api.setCallback(Callback())
     
     #define files to manage
-    api.addFile("file1.txt", path = "data/file1.txt")
-    api.addFile("outfile.txt", existing = False)
+    file1 = api.addFile("file1.txt", path = "data/file1.txt")
+    file2 = api.addFile("outfile.txt", existing = False)
     
-    #create jobs
-    job1 = Job("cat {file1.txt} > {outfile.txt}")
+    #create job
+    job1 = Job()
+    
+    #add commands
+    job1.addCommand("cat file1.txt > outfile.txt")
+    job1.addCommand("cat file1.txt >> outfile.txt")
+    
+    #associate files
+    job1.addFile(file1)
+    job1.addFile(file2)
+    
+    #register job
     api.addJob(job1)
     
     #start all clients

@@ -8,7 +8,7 @@ from mothership.scripting.ScriptAPI import ScriptAPI
 from utils.module_utils import load_module
 import sys
 
-#check args    
+#check args
 if len(sys.argv) < 2:
     print "missing script name"
     sys.exit(1)

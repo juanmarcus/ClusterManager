@@ -3,12 +3,10 @@ Created on Sep 16, 2009
 
 @author: Juan Ibiapina
 '''
-from utils.dict_utils import safeGetValue
-
 class ManagedFile(object):
     def __init__(self, name, **args):
         self.name = name
-        self.existing = safeGetValue(args, "existing", True)
+        self.existing = args.get("existing", True)
         self.owners = {}
 
     def addInstance(self, name, path):

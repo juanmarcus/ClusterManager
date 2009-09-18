@@ -1,1 +1,4 @@
--remove the need for brackets around files in commands
+-remove file.readlines()
+-add errors to log
+-handle remote logging and errors
+-fix the cwd for the client

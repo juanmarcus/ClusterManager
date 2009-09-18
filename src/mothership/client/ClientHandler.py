@@ -115,7 +115,7 @@ class ClientHandler(object):
         self.runSSHCommand("mkdir %s" % self.clientpath)
         self.sendFileSSH("clientpackage.tar.gz")
         self.logger.info("installing agent")
-        self.runSSHCommand('"cd %s; tar -xzf %s; mkdir data"' % (self.clientpath, "clientpackage.tar.gz"))
+        self.runSSHCommand('"cd %s; tar -xzf %s"' % (self.clientpath, "clientpackage.tar.gz"))
     
     def removeAgent(self):
         self.logger.info("removing agent")
@@ -123,7 +123,7 @@ class ClientHandler(object):
 
     def sendFile(self, file):
         path = file.getPath()
-        remotepath = self.sendFileSSH(path, "data")
+        remotepath = self.sendFileSSH(path)
         file.addInstance(self.name, remotepath)
 
     def sendFileSSH(self, filename, dest=None):

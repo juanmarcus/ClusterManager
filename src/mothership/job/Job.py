@@ -5,12 +5,21 @@ Created on Sep 14, 2009
 '''
 
 class Job():
-    def __init__(self, cmd):
+    '''
+    Contains a list of commands and an associated set of input and output files.
+    '''
+    def __init__(self):
         self.files = {}
-        self.cmd = cmd
+        self.commands = []
     
-    def getCommand(self):
-        return self.cmd
+    def getCommands(self):
+        return self.commands
     
     def addFile(self, file):
         self.files[file.getName()] = file
+        
+    def addCommand(self, cmd):
+        self.commands.append(cmd)
+        
+    def getFiles(self):
+        return self.files

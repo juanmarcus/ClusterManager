@@ -5,7 +5,6 @@ Created on Sep 14, 2009
 '''
 import os.path
 from mothership.file.ManagedFile import ManagedFile
-from utils.dict_utils import safeGetValue
 import logging
 
 class FileManager(object):
@@ -19,8 +18,8 @@ class FileManager(object):
             self.logger.error("file already managed: %s", name)
             return None
         else:
-            existing = safeGetValue(args, "existing", True)
-            path = safeGetValue(args, "path", "")
+            existing = args.get("existing", True)
+            path = args.get("path")
             if existing and not os.path.exists(path):
                 self.logger.error("path wrong or not specified for file: %s" % name)
                 return None
