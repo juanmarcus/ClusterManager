@@ -8,9 +8,13 @@ class Job():
     '''
     Contains a list of commands and an associated set of input and output files.
     '''
-    def __init__(self):
+    def __init__(self, name):
         self.files = {}
         self.commands = []
+        self.name = name
+    
+    def getName(self):
+        return self.name
     
     def getCommands(self):
         return self.commands
