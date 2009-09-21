@@ -14,6 +14,7 @@ class ClientAPI(object):
     def runJob(self, job):
         os.chdir("./.cmanager")
         
+        #run commands in order
         commands = job.getCommands()
         outputs = []
         for cmd in commands:

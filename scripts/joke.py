@@ -12,7 +12,7 @@ def run(api):
     
     #define files to manage
     file1 = api.addFile("file1.txt", path = "data/file1.txt")
-    file2 = api.addFile("outfile.txt", existing = False)
+    file2 = api.addFile("outfile.txt", existing = False, fetch = True )
     
     #create job
     job1 = Job()

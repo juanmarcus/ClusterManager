@@ -28,7 +28,7 @@ class Runner(object):
         #creates one JobRunner for each client and start them
         self.runners = []
         for client in clients.values():
-            runner = JobRunner(self.controller, client, self.queue)
+            runner = JobRunner(client, self.queue)
             self.runners.append(runner)
             runner.start()
             

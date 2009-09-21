@@ -93,6 +93,11 @@ class ClientHandler(object):
         path = file.getPath()
         remotepath = self.sendFileSSH(path)
         file.addInstance(self.info.name, remotepath)
+        print self.info.name, remotepath
+        
+    def fetchFile(self, file):
+        path = self.fetchFileSSH(file.name)
+        file.addInstance(":server", path)
 
     def sendFileSSH(self, filename, dest=None):
         self.logger.info("sending file: %s" % filename)
@@ -110,3 +115,20 @@ class ClientHandler(object):
             parts.append("%s:%s" % (self.info.name, dest))
         os.system(" ".join(parts))
         return os.path.join(dest, filename)
+
+    def fetchFileSSH(self, filename, dest=None):
+        self.logger.info("receiving file: %s" % filename)
+        parts = []
+        parts.append("scp")
+        if dest:
+            dest = os.path.join(self.info.clientpath, dest, filename)
+        else:
+            dest = os.path.join(self.info.clientpath, filename)
+        if self.info.username:
+            parts.append("%s@%s:%s" % (self.info.username, self.info.name, dest))
+        else:
+            parts.append("%s:%s" % (self.info.name, dest))
+        parts.append(filename)
+        os.system(" ".join(parts))
+        return filename
+        

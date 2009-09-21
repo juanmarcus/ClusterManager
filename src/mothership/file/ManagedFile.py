@@ -7,6 +7,7 @@ class ManagedFile(object):
     def __init__(self, name, **args):
         self.name = name
         self.existing = args.get("existing", True)
+        self.fetch = args.get("fetch", False)
         self.owners = {}
 
     def addInstance(self, name, path):
@@ -20,3 +21,6 @@ class ManagedFile(object):
         
     def exists(self):
         return self.existing
+    
+    def isFetch(self):
+        return self.fetch

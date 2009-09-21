@@ -1,4 +1,4 @@
 -add errors to log
 -handle remote logging and errors
 -refactor the cwd for the client
--create auto result files
+-refactor file and directory management
