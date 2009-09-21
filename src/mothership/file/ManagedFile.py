@@ -6,21 +6,22 @@ Created on Sep 16, 2009
 class ManagedFile(object):
     def __init__(self, name, **args):
         self.name = name
-        self.existing = args.get("existing", True)
-        self.fetch = args.get("fetch", False)
-        self.owners = {}
+        self.serverpath = args.get("path")
+        self.autoFetch = args.get("autoFetch", False)
+        self.autoSend = args.get("autoSend", True)
+        self.autoRemove = args.get("autoRemove", True)
 
-    def addInstance(self, name, path):
-        self.owners[name] = path
-    
     def getName(self):
         return self.name
     
-    def getPath(self, clientname=":server"):
-        return self.owners[clientname]
+    def getServerPath(self):
+        return self.serverpath
         
-    def exists(self):
-        return self.existing
+    def hasAutoFetch(self):
+        return self.autoFetch
     
-    def isFetch(self):
-        return self.fetch
+    def hasAutoRemove(self):
+        return self.autoRemove
+    
+    def hasAutoSend(self):
+        return self.autoSend

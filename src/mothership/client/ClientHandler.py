@@ -90,45 +90,39 @@ class ClientHandler(object):
         self.runSSHCommand("rm -rf %s" % self.info.clientpath)
 
     def sendFile(self, file):
-        path = file.getPath()
-        remotepath = self.sendFileSSH(path)
-        file.addInstance(self.info.name, remotepath)
-        print self.info.name, remotepath
+        path = file.getServerPath()
+        self.sendFileSSH(path)
         
     def fetchFile(self, file):
-        path = self.fetchFileSSH(file.name)
-        file.addInstance(":server", path)
+        self.fetchFileSSH(file.name, file.getServerPath())
+        
+    def removeFile(self, file):
+        self.removeFileSSH(file.name)
 
-    def sendFileSSH(self, filename, dest=None):
+    def removeFileSSH(self, filename):
+        self.logger.info("removing file: %s" % filename)
+        self.runSSHCommand('"cd %s; rm %s"' % (self.info.clientpath, filename))
+        
+    def sendFileSSH(self, filename):
         self.logger.info("sending file: %s" % filename)
         parts = []
         parts.append("scp")
         parts.append(filename)
-        if dest:
-            dest = os.path.join(self.info.clientpath, dest)
-        else:
-            dest = self.info.clientpath
-        self.logger.info("destination: %s" % dest)
         if self.info.username:
-            parts.append("%s@%s:%s" % (self.info.username, self.info.name, dest))
+            parts.append("%s@%s:%s" % (self.info.username, self.info.name, self.info.clientpath))
         else:
-            parts.append("%s:%s" % (self.info.name, dest))
+            parts.append("%s:%s" % (self.info.name, self.info.clientpath))
         os.system(" ".join(parts))
-        return os.path.join(dest, filename)
 
-    def fetchFileSSH(self, filename, dest=None):
-        self.logger.info("receiving file: %s" % filename)
+    def fetchFileSSH(self, remotefilename, localpath):
+        self.logger.info("receiving file: %s" % remotefilename)
         parts = []
         parts.append("scp")
-        if dest:
-            dest = os.path.join(self.info.clientpath, dest, filename)
-        else:
-            dest = os.path.join(self.info.clientpath, filename)
+        dest = os.path.join(self.info.clientpath, remotefilename)
         if self.info.username:
             parts.append("%s@%s:%s" % (self.info.username, self.info.name, dest))
         else:
             parts.append("%s:%s" % (self.info.name, dest))
-        parts.append(filename)
+        parts.append(localpath)
         os.system(" ".join(parts))
-        return filename
         

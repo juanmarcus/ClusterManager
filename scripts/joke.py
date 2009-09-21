@@ -10,20 +10,32 @@ def run(api):
     #set callback object
     api.setCallback(Callback())
     
-    #define files to manage
-    file1 = api.addFile("file1.txt", path = "data/file1.txt")
-    file2 = api.addFile("outfile.txt", existing = False, fetch = True )
+    # Define files to manage
+    #
+    # required options:
+    #    name
+    #    path
+    #
+    # default options:
+    #    autoSend = True
+    #    autoFetch = False
+    #    autoRemove = True
+    
+    file1 = api.addFile("file1.txt", path="data/file1.txt")
+    file2 = api.addFile("file2.txt", path="data/file2.txt")
+    outfile = api.addFile("outfile.txt", path="data/outfile.txt", autoSend = False, autoFetch=True)
     
     #create job
     job1 = Job()
     
     #add commands
     job1.addCommand("cat file1.txt > outfile.txt")
-    job1.addCommand("cat file1.txt >> outfile.txt")
+    job1.addCommand("cat file2.txt >> outfile.txt")
     
     #associate files
     job1.addFile(file1)
     job1.addFile(file2)
+    job1.addFile(outfile)
     
     #register job
     api.addJob(job1)

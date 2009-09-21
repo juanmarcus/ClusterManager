@@ -24,16 +24,22 @@ class JobRunner(Thread):
             #check files and send to client
             files = job.getFiles()
             for name, file in files.items():
-                if file.exists():
+                if file.hasAutoSend():
                     self.logger.info("sending file %s" % name)
                     self.client.sendFile(file)
             #send job to client
             self.logger.info("running job")
             result = self.clientapi.runJob(job)
+            #check result
             if not result:
                 self.logger.error("problem on job execution")
-            self.logger.info("job finished. checking result files")
-            for file in files.values():
-                if file.isFetch():
+            self.logger.info("job finished. checking files")
+            #receiving and deleting files
+            for name, file in files.items():
+                if file.hasAutoFetch():
+                    self.logger.info("fetching file %s" % name)
                     self.client.fetchFile(file)
+                if file.hasAutoRemove():
+                    self.logger.info("removing file %s" % name)
+                    self.client.removeFile(file)
             self.queue.task_done()

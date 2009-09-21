@@ -18,14 +18,16 @@ class FileManager(object):
             self.logger.error("file already managed: %s", name)
             return None
         else:
-            existing = args.get("existing", True)
             path = args.get("path")
-            if existing and not os.path.exists(path):
-                self.logger.error("path wrong or not specified for file: %s" % name)
-                return None
+            autoSend = args.get("autoSend", True)
+            if autoSend:
+                if not os.path.exists(path):
+                    self.logger.error("path wrong or not specified for file: %s" % name)
+                    return None
+            else:
+                self.logger.info("not checking path for file: %s" % name)
+                
             file = ManagedFile(name, **args)
-            if existing:
-                file.addInstance(":server", path)
             self.logger.info("adding file: %s" % name)
             self.files[name] = file
             return file
