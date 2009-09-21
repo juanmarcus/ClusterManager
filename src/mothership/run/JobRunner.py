@@ -9,7 +9,7 @@ import logging
 class JobRunner(Thread):
     def __init__(self, controller, client, queue):
         Thread.__init__(self)
-        self.logger = logging.getLogger("JobRunner:%s" % client.getName())
+        self.logger = logging.getLogger("JobRunner:%s" % client.getConfig().getName())
         self.logger.info("initializing")
         self.controller = controller
         self.filemanager = self.controller.getFileManager()

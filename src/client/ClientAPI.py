@@ -8,9 +8,6 @@ import os
 
 class ClientAPI(object):
 
-    def turnOnMonitor(self):
-        pass
-    
     def runSystemCommand(self, cmd):
         return run_command(cmd)
 

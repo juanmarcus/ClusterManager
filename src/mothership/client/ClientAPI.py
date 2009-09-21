@@ -8,11 +8,8 @@ class ClientAPI(object):
     def __init__(self, remoteobj):
         self.remoteobj = remoteobj
         
-    def turnOnMonitor(self):
-        self.remoteobj.turnOnMonitor()
-
-    def stop(self):
-        self.remoteobj.stop()
-        
     def runJob(self, job):
         return self.remoteobj.runJob(job)
+    
+    def runSystemCommand(self, cmd):
+        return self.remoteobj.runSystemCommand(cmd)

@@ -1,4 +1,6 @@
 -remove file.readlines()
 -add errors to log
 -handle remote logging and errors
--fix the cwd for the client
+-refactor the cwd for the client
+-send client info for the client
+-create auto result files
