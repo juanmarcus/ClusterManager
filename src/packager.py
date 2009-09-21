@@ -13,7 +13,7 @@ def build_package():
     tar = tarfile.open("clientpackage.tar.gz", "w:gz")
     
     os.chdir("./%s"%srcdir)
-    for line in infile.readlines():
+    for line in infile:
         fline = line.strip()
         if fline:
             if fline.startswith("#"):
