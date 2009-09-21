@@ -20,7 +20,8 @@ class JobRunner(Thread):
         while not self.queue.empty():
             #get job
             job = self.queue.get()
-            self.logger.info("got job. checking files")
+            jobname = job.getName()
+            self.logger.info("got job '%s'. checking files" % jobname)
             #check files and send to client
             files = job.getFiles()
             for name, file in files.items():
@@ -28,12 +29,12 @@ class JobRunner(Thread):
                     self.logger.info("sending file %s" % name)
                     self.client.sendFile(file)
             #send job to client
-            self.logger.info("running job")
+            self.logger.info("running job '%s'" % jobname)
             result = self.clientapi.runJob(job)
             #check result
             if not result:
-                self.logger.error("problem on job execution")
-            self.logger.info("job finished. checking files")
+                self.logger.error("'%s': problem on execution" % jobname)
+            self.logger.info("job '%s' finished. checking files"%jobname)
             #receiving and deleting files
             for name, file in files.items():
                 if file.hasAutoFetch():

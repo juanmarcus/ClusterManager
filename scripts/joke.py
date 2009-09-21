@@ -1,4 +1,3 @@
-from mothership.job.Job import Job
 import sys
 
 class Callback(object):
@@ -26,7 +25,7 @@ def run(api):
     outfile = api.addFile("outfile.txt", path="data/outfile.txt", autoSend = False, autoFetch=True)
     
     #create job
-    job1 = Job()
+    job1 = api.createJob("Test job")
     
     #add commands
     job1.addCommand("cat file1.txt > outfile.txt")
@@ -36,9 +35,6 @@ def run(api):
     job1.addFile(file1)
     job1.addFile(file2)
     job1.addFile(outfile)
-    
-    #register job
-    api.addJob(job1)
     
     #start all clients
     api.startAllClients()

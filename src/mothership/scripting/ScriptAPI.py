@@ -15,12 +15,12 @@ class ScriptAPI(object):
     def setCallback(self, callback):
         self.callback = callback
 
-    def addJob(self, job):
-        rjob = self.jobmanager.addJob(job)
-        if not rjob:
+    def createJob(self, jobname):
+        job = self.jobmanager.createJob(jobname)
+        if not job:
             if self.callback:
-                self.callback.error("Error adding job. Check log for details.")
-        return rjob 
+                self.callback.error("Error creating job. Check log for details.")
+        return job 
     
     def addFile(self, name, **args):
         file = self.filemanager.addFile(name, **args)

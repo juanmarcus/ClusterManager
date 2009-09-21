@@ -3,6 +3,7 @@ Created on Sep 11, 2009
 
 @author: Juan Ibiapina
 '''
+from mothership.job.Job import Job
 import logging
 
 class JobManager(object):
@@ -11,8 +12,9 @@ class JobManager(object):
         self.logger.info("initializing")
         self.jobs = []
     
-    def addJob(self, job):
-        self.logger.info("adding job")
+    def createJob(self, jobname):
+        self.logger.info("creating and adding job '%s'" % jobname)
+        job = Job(jobname)
         self.jobs.append(job)
         return job
 
