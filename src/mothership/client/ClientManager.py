@@ -1,5 +1,5 @@
-from mothership.client.ClientConfig import ClientConfig
 from mothership.client.ClientHandler import ClientHandler
+from mothership.client.ClientInfo import ClientInfo
 import logging
 
 class ClientManager(object):
@@ -16,10 +16,10 @@ class ClientManager(object):
 
     def addClient(self, name):
         self.logger.info("adding client %s" % name)
-        config = ClientConfig(name)
-        client = ClientHandler(config)
+        info = ClientInfo(name)
+        client = ClientHandler(info)
         self.clients[name] = client
-        return config
+        return info
 
     def startClient(self, name):
         if name == ":all":

@@ -3,7 +3,7 @@ Created on Sep 16, 2009
 
 @author: Juan Ibiapina
 '''
-class ClientConfig(object):
+class ClientInfo(object):
     '''
     Holds configuration for a client.
     '''

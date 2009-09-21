@@ -9,7 +9,7 @@ import logging
 class JobRunner(Thread):
     def __init__(self, controller, client, queue):
         Thread.__init__(self)
-        self.logger = logging.getLogger("JobRunner:%s" % client.getConfig().getName())
+        self.logger = logging.getLogger("JobRunner:%s" % client.getInfo().getName())
         self.logger.info("initializing")
         self.controller = controller
         self.filemanager = self.controller.getFileManager()
@@ -17,7 +17,7 @@ class JobRunner(Thread):
         self.queue = queue
         
     def run(self):
-        self.client.getClientAPI().setClientConfig(self.client.config)
+        self.client.getClientAPI().setClientInfo(self.client.info)
         while not self.queue.empty():
             #get job
             job = self.queue.get()
