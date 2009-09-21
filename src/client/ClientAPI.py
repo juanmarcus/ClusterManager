@@ -22,3 +22,6 @@ class ClientAPI(object):
             
         os.chdir("..")
         return True
+
+    def setClientConfig(self, config):
+        self.config = config

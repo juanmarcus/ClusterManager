@@ -17,6 +17,7 @@ class JobRunner(Thread):
         self.queue = queue
         
     def run(self):
+        self.client.getClientAPI().setClientConfig(self.client.config)
         while not self.queue.empty():
             #get job
             job = self.queue.get()

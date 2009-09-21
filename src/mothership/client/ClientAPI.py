@@ -13,3 +13,6 @@ class ClientAPI(object):
     
     def runSystemCommand(self, cmd):
         return self.remoteobj.runSystemCommand(cmd)
+    
+    def setClientConfig(self, config):
+        self.remoteobj.setClientConfig(config)
