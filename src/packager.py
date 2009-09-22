@@ -8,7 +8,8 @@ def build_package():
     infilename = "config/packagefiles.txt"
     infile = open(infilename)
     
-    os.remove("clientpackage.tar.gz")
+    if os.path.exists("clientpackage.tar.gz"):
+        os.remove("clientpackage.tar.gz")
     
     tar = tarfile.open("clientpackage.tar.gz", "w:gz")
     
