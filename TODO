@@ -2,3 +2,5 @@
 -handle remote logging and errors
 -refactor the cwd for the client
 -refactor callback object
+-correctly shutdown clients
+-generalize ssh
