@@ -22,11 +22,11 @@ class ScriptAPI(object):
                 self.callback.error("Error creating job. Check log for details.")
         return job 
     
-    def addFile(self, name, **args):
-        file = self.filemanager.addFile(name, **args)
+    def addFile(self, **args):
+        file = self.filemanager.addFile(**args)
         if not file:
             if self.callback:
-                self.callback.error("Error adding file %s. Check log for details." % name)
+                self.callback.error("Error adding file %s. Check log for details.")
         return file
 
     def runAllJobs(self):

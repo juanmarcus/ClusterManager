@@ -2,8 +2,8 @@
 #you can't set a host password here yet. Use dsa keys for auto login
 def config(api):
     #hosts
-    host_whitted = api.addClient("whitted")
-    #host1.setUserName("username")
+    host = api.addClient("seiya")
+    host.setUserName("athena")
     #host.setDisplay("0")
     
     

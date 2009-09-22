@@ -4,3 +4,4 @@
 -refactor callback object
 -correctly shutdown clients
 -generalize ssh
+-fix file specification: name and path are redundant

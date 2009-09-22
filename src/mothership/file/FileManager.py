@@ -13,12 +13,16 @@ class FileManager(object):
         self.logger.info("initializing")
         self.files = {}
     
-    def addFile(self, name, **args):
+    def addFile(self, **args):
+        path = args.get("path")
+        _, name = os.path.split(path)
+        if not name:
+            self.logger.error("path is a directory")
+            return None
         if self.files.has_key(name):
             self.logger.error("file already managed: %s", name)
             return None
         else:
-            path = args.get("path")
             autoSend = args.get("autoSend", True)
             if autoSend:
                 if not os.path.exists(path):
