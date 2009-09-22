@@ -1,4 +1,3 @@
-from mothership.job.Job import Job
 import sys
 
 class Callback(object):
