@@ -22,7 +22,7 @@ class ClientAPI(object):
         #run tasks in order
         tasks = job.getTasks()
         for task in tasks:
-            result = self.runSystemCommand(task.makeCommand())
+            result = self.runSystemCommand(task.getCommandLine())
             task.setOutput(result)
 
 #        os.chdir("..")

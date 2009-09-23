@@ -11,13 +11,10 @@ class Task(object):
         self.issyscmd = False
         self.output = None
         
-    def getCommandLine(self):
-        return "lol"
-    
     def setSystemCommand(self, bool):
         self.issyscmd = bool
         
-    def makeCommand(self):
+    def getCommandLine(self):
         parts = []
         #make main command
         if not self.issyscmd:
