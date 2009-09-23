@@ -1,7 +1,25 @@
--add errors to log
--handle remote logging and errors
--refactor callback object
--correctly shutdown clients
--generalize ssh
--fix file specification: name and path are redundant
--client workload
+Bugfixes
+	- Clients don't shutdown correctly when a error occurs.
+		- Handle local errors
+		- Handle remote errors
+	- Agent is not installing
+	- Reading command result and output is not working
+	- Worker threads may wait forever when jobs are already done
+
+Features
+	- Generalize SSH calls to any system
+	- Create local clients
+	- Manage client workload
+		- Several jobs per client
+		- Send files efficiently
+	- Remote log
+	- Auto log errors
+	- Refeed Jobs
+
+Incomplete Features
+	- Callback object
+	
+Other
+	-Replace system calls with an SSH implementation
+		-Too many dependencies?
+	- Bundle Pyro with the distribution
