@@ -4,6 +4,7 @@ Created on Sep 16, 2009
 @author: Juan Ibiapina
 '''
 from threading import Thread
+import Queue
 import logging
 
 class Worker(Thread):
@@ -19,7 +20,10 @@ class Worker(Thread):
         self.clientapi.setClientInfo(self.client.info)
         while not self.queue.empty():
             #get job
-            job = self.queue.get()
+            try:
+                job = self.queue.get(True, 2)
+            except Queue.Empty:
+                continue
             jobname = job.getName()
             self.logger.info("got job: %s" % jobname)
             self.logger.info("checking input files")

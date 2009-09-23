@@ -4,7 +4,6 @@ Bugfixes
 		- Handle remote errors
 	- Agent is not installing
 	- Reading command result and output is not working
-	- Worker threads may wait forever when jobs are already done
 
 Features
 	- Generalize SSH calls to any system
