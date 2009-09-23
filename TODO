@@ -1,7 +1,7 @@
 -add errors to log
 -handle remote logging and errors
--refactor the cwd for the client
 -refactor callback object
 -correctly shutdown clients
 -generalize ssh
 -fix file specification: name and path are redundant
+-client workload

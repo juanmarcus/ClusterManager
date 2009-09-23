@@ -9,11 +9,11 @@ import logging
 class JobManager(object):
     def __init__(self):
         self.logger = logging.getLogger("JobManager")
-        self.logger.info("initializing")
+        self.logger.debug("initializing")
         self.jobs = []
     
     def createJob(self, jobname):
-        self.logger.info("creating and adding job '%s'" % jobname)
+        self.logger.info("creating job: %s" % jobname)
         job = Job(jobname)
         self.jobs.append(job)
         return job

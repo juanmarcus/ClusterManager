@@ -30,9 +30,9 @@ def run(api):
     job1 = api.createJob("Accumulate and Detect")
     
     #add commands
-    job1.addCommand('/home/athena/laffernandes/accumulate_ga2h_point_line_naive -bounds 2 -90 90 -90 90 -delta 1 -inputdata "id220834478_input_data.dat" -outputmap "id220834478_job1_resulting_map.dat" >> id220834478_job1.log')
-    job1.addCommand("echo ' ' >> id220834478_job1.log")
-    job1.addCommand('/home/athena/laffernandes/detect_peaks_ga2h_line -inputmap "id220834478_job1_resulting_map.dat" -filter_size 5 -filter_std 0.5 -outputblades "id220834478_job1_resulting_blades.dat"  >> id220834478_job1.log')
+    job1.addTask('accumulate_ga2h_point_line_naive', '-bounds 2 -90 90 -90 90 -delta 1 -inputdata "id220834478_input_data.dat" -outputmap "id220834478_job1_resulting_map.dat" >> id220834478_job1.log')
+    job1.addTask('echo',"' ' >> id220834478_job1.log").setSystemCommand(True)
+    job1.addTask('detect_peaks_ga2h_line','-inputmap "id220834478_job1_resulting_map.dat" -filter_size 5 -filter_std 0.5 -outputblades "id220834478_job1_resulting_blades.dat"  >> id220834478_job1.log')
     
     #associate files
     job1.addFile(inputdata)

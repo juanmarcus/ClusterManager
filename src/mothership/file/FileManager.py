@@ -10,7 +10,7 @@ import logging
 class FileManager(object):
     def __init__(self):
         self.logger = logging.getLogger("FileManager")
-        self.logger.info("initializing")
+        self.logger.debug("initializing")
         self.files = {}
     
     def addFile(self, **args):

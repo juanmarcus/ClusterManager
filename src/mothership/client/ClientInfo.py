@@ -12,7 +12,7 @@ class ClientInfo(object):
         self.username = None
         self.display = "0"
         self.clientpath = ".cmanager/"
-        self.remotename = self.name
+        self.workingdir = "."
 
     def setClientPath(self, path):
         if not path.endswith("/"):
@@ -25,6 +25,9 @@ class ClientInfo(object):
     def setDisplay(self, display):
         self.display = display    
         
+    def setWorkingDir(self, path):
+        self.workingdir = path
+        
     def getName(self):
         return self.name
     
@@ -36,3 +39,6 @@ class ClientInfo(object):
     
     def getClientPath(self):
         return self.clientpath
+    
+    def getWorkingDir(self):
+        return self.workingdir

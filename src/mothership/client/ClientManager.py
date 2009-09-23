@@ -8,14 +8,14 @@ class ClientManager(object):
     '''
     def __init__(self):
         self.logger = logging.getLogger("ClientManager")
-        self.logger.info("initializing")
+        self.logger.debug("initializing")
         self.clients = {}
 
     def getClients(self):
         return self.clients
 
     def addClient(self, name):
-        self.logger.info("adding client %s" % name)
+        self.logger.info("adding client: %s" % name)
         info = ClientInfo(name)
         client = ClientHandler(info)
         self.clients[name] = client

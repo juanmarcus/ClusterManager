@@ -12,16 +12,20 @@ class ClientAPI(object):
         return run_command(cmd)
 
     def runJob(self, job):
-        os.chdir("./.cmanager")
+        #check and change to working dir
+        workdir =self.info.getWorkingDir() 
+        if os.path.exists(workdir):
+            os.chdir(workdir)
+        else:
+            job.error("couldn't find work dir")
         
-        #run commands in order
-        commands = job.getCommands()
-        outputs = []
-        for cmd in commands:
-            result = self.runSystemCommand(cmd)
-            outputs.append(result)
-            
-        os.chdir("..")
+        #run tasks in order
+        tasks = job.getTasks()
+        for task in tasks:
+            result = self.runSystemCommand(task.makeCommand())
+            task.setOutput(result)
+
+#        os.chdir("..")
         return True
 
     def setClientInfo(self, info):

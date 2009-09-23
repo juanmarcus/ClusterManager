@@ -3,6 +3,7 @@ Created on Sep 14, 2009
 
 @author: Juan Ibiapina
 '''
+from mothership.job.Task import Task
 
 class Job():
     '''
@@ -10,20 +11,22 @@ class Job():
     '''
     def __init__(self, name):
         self.files = {}
-        self.commands = []
+        self.tasks = []
         self.name = name
     
     def getName(self):
         return self.name
     
-    def getCommands(self):
-        return self.commands
+    def getTasks(self):
+        return self.tasks
     
     def addFile(self, file):
         self.files[file.getName()] = file
         
-    def addCommand(self, cmd):
-        self.commands.append(cmd)
+    def addTask(self, cmd, pars = None):
+        task = Task(cmd, pars)
+        self.tasks.append(task)
+        return task
         
     def getFiles(self):
         return self.files

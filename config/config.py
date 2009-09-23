@@ -4,6 +4,8 @@ def config(api):
     #hosts
     host = api.addClient("seiya")
     host.setUserName("athena")
+    host.setWorkingDir("/home/athena/laffernandes")
+#    host.setWorkload(2)
     #host.setDisplay("0")
     
     

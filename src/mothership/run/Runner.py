@@ -4,19 +4,19 @@ Created on Sep 14, 2009
 @author: Juan Ibiapina
 '''
 from Queue import Queue
-from mothership.run.JobRunner import JobRunner
+from mothership.run.Worker import Worker
 import logging
 
 class Runner(object):
     def __init__(self, controller):
         self.logger = logging.getLogger("Runner")
-        self.logger.info("initializing")
+        self.logger.debug("initializing")
         self.controller = controller
         self.jobmanager = self.controller.getJobManager()
         self.clientmanager = self.controller.getClientManager()
         
     def runAllJobs(self):
-        self.logger.info("starting JobRunners")
+        self.logger.info("starting workers")
         joblist = self.jobmanager.getJobList()
         clients = self.clientmanager.getClients()
         
@@ -25,15 +25,16 @@ class Runner(object):
         for job in joblist:
             self.queue.put(job)
         
-        #creates one JobRunner for each client and start them
-        self.runners = []
+        #creates workers for each client and start them
+        self.workers = []
         for client in clients.values():
-            runner = JobRunner(client, self.queue)
-            self.runners.append(runner)
-            runner.start()
+            worker = Worker(client, self.queue)
+            self.workers.append(worker)
+            worker.start()
             
-        #wait for all runners to finish
+        #wait for all workers to finish
         self.logger.info("waiting for completion")
         self.queue.join()
+        self.logger.info("all jobs completed")
             
         

@@ -1,4 +1,3 @@
-from subprocess import Popen, PIPE
 import Pyro.core
 from mothership.client.ClientAPI import ClientAPI
 from utils.system_utils import run_command
@@ -9,7 +8,7 @@ import logging
 class ClientHandler(object):
     def __init__(self, info):
         self.logger = logging.getLogger("Client:%s" % info.name)
-        self.logger.info("initializing")
+        self.logger.debug("initializing")
         self.info = info
         self.clientapi = None
 
@@ -22,7 +21,7 @@ class ClientHandler(object):
     def start(self):
         self.startAgent()
         time.sleep(2)
-        remoteobj = Pyro.core.getProxyForURI("PYRONAME://:Default.%s" % self.info.remotename)
+        remoteobj = Pyro.core.getProxyForURI("PYRONAME://:Default.%s" % self.info.name)
         self.clientapi = ClientAPI(remoteobj)
     
     def stop(self):
@@ -43,7 +42,7 @@ class ClientHandler(object):
     
     def runSSHCommand(self, cmd, waitForResult=False):
         fullcmd = self.makeSSHCommand(cmd)
-        self.logger.info("running ssh command: %s" % fullcmd)
+        self.logger.debug("running ssh command: %s" % fullcmd)
         if waitForResult:
             result = run_command(fullcmd)
         else:
@@ -52,12 +51,12 @@ class ClientHandler(object):
         return result
     
     def checkAgent(self):
-        self.logger.info("checking for client")
+        self.logger.info("checking for agent")
         result = self.runSSHCommand("ls '%sclient.py' 2>/dev/null" % self.info.clientpath, True)
         if result:
-            self.logger.info("client found")
+            self.logger.info("agent found")
         else:
-            self.logger.info("client not found")
+            self.logger.info("agent not found")
         return result
     
     def startAgent(self):
@@ -70,14 +69,6 @@ class ClientHandler(object):
         cmd = '"DISPLAY=:%s killall python" &' % (self.info.display)
         self.runSSHCommand(cmd)
     
-    def turnOnMonitor(self):
-        self.logger.info("turning on monitor")
-        self.runSSHCommand("DISPLAY=:%s xset dpms force on" % self.info.display)
-        
-    def turnOffMonitor(self):
-        self.logger.info("turning off monitor")
-        self.runSSHCommand("DISPLAY=:%s xset dpms force off" % self.info.display)
-        
     def installAgent(self):
         self.logger.info("creating dir: %s" % self.info.clientpath)
         self.runSSHCommand("mkdir %s" % self.info.clientpath)
@@ -100,25 +91,22 @@ class ClientHandler(object):
         self.removeFileSSH(file.name)
 
     def removeFileSSH(self, filename):
-        self.logger.info("removing file: %s" % filename)
-        self.runSSHCommand('"cd %s; rm %s"' % (self.info.clientpath, filename))
+        self.runSSHCommand('"cd %s; rm %s"' % (self.info.workingdir, filename))
         
     def sendFileSSH(self, filename):
-        self.logger.info("sending file: %s" % filename)
         parts = []
         parts.append("scp")
         parts.append(filename)
         if self.info.username:
-            parts.append("%s@%s:%s" % (self.info.username, self.info.name, self.info.clientpath))
+            parts.append("%s@%s:%s" % (self.info.username, self.info.name, self.info.workingdir))
         else:
-            parts.append("%s:%s" % (self.info.name, self.info.clientpath))
+            parts.append("%s:%s" % (self.info.name, self.info.workingdir))
         os.system(" ".join(parts))
 
     def fetchFileSSH(self, remotefilename, localpath):
-        self.logger.info("receiving file: %s" % remotefilename)
         parts = []
         parts.append("scp")
-        dest = os.path.join(self.info.clientpath, remotefilename)
+        dest = os.path.join(self.info.workingdir, remotefilename)
         if self.info.username:
             parts.append("%s@%s:%s" % (self.info.username, self.info.name, dest))
         else:

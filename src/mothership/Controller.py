@@ -15,14 +15,14 @@ class Controller(object):
         
         #create console logger
         console = logging.StreamHandler(sys.stdout)
-        console.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
+        console.setLevel(logging.INFO)
+        formatter = logging.Formatter('%(name)-13s: %(levelname)-8s %(message)s')
         console.setFormatter(formatter)
         logging.getLogger('').addHandler(console)
         
         #initialize
         self.logger = logging.getLogger("Controller")
-        self.logger.info("initializing")
+        self.logger.debug("initializing")
         self.configfile = configfile
         self.clientmanager = ClientManager()
         self.jobmanager = JobManager()
@@ -43,7 +43,7 @@ class Controller(object):
         return self.filemanager
         
     def readConfig(self):
-        self.logger.info("parsing config file %s" % self.configfile)
+        self.logger.info("parsing config file: %s" % self.configfile)
         configmodule = load_module(self.configfile)
         configmodule.config(ConfigProxy(self))
         
