@@ -13,6 +13,7 @@ class Job():
         self.files = {}
         self.tasks = []
         self.name = name
+        self.error = None
     
     def getName(self):
         return self.name
@@ -30,3 +31,9 @@ class Job():
         
     def getFiles(self):
         return self.files
+    
+    def setError(self, msg):
+        self.error = msg
+        
+    def getError(self):
+        return self.error

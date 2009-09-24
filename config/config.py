@@ -2,9 +2,9 @@
 #you can't set a host password here yet. Use dsa keys for auto login
 def config(api):
     #hosts
-    host = api.addClient("seiya")
-    host.setUserName("athena")
-    host.setWorkingDir("/home/athena/laffernandes")
+    host = api.addClient("illidan")
+#    host.setUserName("athena")
+    host.setWorkingDir("/home/juanmarcus/tmp")
 #    host.setWorkload(2)
     #host.setDisplay("0")
     

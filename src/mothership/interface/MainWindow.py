@@ -40,22 +40,6 @@ class MainWindow(QtGui.QWidget):
         self.mainLayout.addWidget(button)
         self.connect(button, QtCore.SIGNAL("clicked()"), self.removeAgent)
         
-        #turn on all monitors
-        button = QtGui.QPushButton("Turn on monitors")
-        self.mainLayout.addWidget(button)
-        self.connect(button, QtCore.SIGNAL("clicked()"), self.turnOnMonitor)
-        
-        #turn off all monitors
-        button = QtGui.QPushButton("Turn off monitors")
-        self.mainLayout.addWidget(button)
-        self.connect(button, QtCore.SIGNAL("clicked()"), self.turnOffMonitor)
-    
-    def turnOnMonitor(self):
-        self.emit(QtCore.SIGNAL("turnOnMonitor"), ":all")
-    
-    def turnOffMonitor(self):
-        self.emit(QtCore.SIGNAL("turnOffMonitor"), ":all")
-
     def installAgent(self):
         self.emit(QtCore.SIGNAL("installAgent"), ":all")
             

@@ -27,19 +27,31 @@ class Worker(Thread):
             jobname = job.getName()
             self.logger.info("got job: %s" % jobname)
             self.logger.info("checking input files")
+            
             #check files and send to client
             files = job.getFiles()
             for name, file in files.items():
                 if file.hasAutoSend():
                     self.logger.info("sending file: %s" % name)
                     self.client.sendFile(file)
+                    
             #send job to client
-            self.logger.info("running job: %s" % jobname)
+            self.logger.info("running job")
             result = self.clientapi.runJob(job)
-            #check result
+            
+            #check job result
             if not result:
-                self.logger.error("problem on execution: %s" % jobname)
-            self.logger.info("job finished: %s"%jobname)
+                self.logger.error(job.getError())
+            else:
+                self.logger.info("job finished fine")
+            
+            #check task results
+            tasks = job.getTasks()
+            for n,task in zip(xrange(100),tasks):
+                returncode = task.getReturnCode()
+                output = task.getOutput()
+                self.logger.info("task %d: return code: ; output: %s"%(n, output))
+            
             self.logger.info("checking output files")
             #receiving and deleting files
             for name, file in files.items():

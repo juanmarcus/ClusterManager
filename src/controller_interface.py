@@ -22,8 +22,6 @@ window.connect(window, QtCore.SIGNAL("startClient"), api.startClient)
 window.connect(window, QtCore.SIGNAL("stopClient"), api.stopClient)
 window.connect(window, QtCore.SIGNAL("installAgent"), api.installAgent)
 window.connect(window, QtCore.SIGNAL("removeAgent"), api.removeAgent)
-window.connect(window, QtCore.SIGNAL("turnOnMonitor"), api.turnOnMonitor)
-window.connect(window, QtCore.SIGNAL("turnOffMonitor"), api.turnOffMonitor)
 
 #create a callback object and connect to the interface
 #TODO

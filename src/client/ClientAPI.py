@@ -17,13 +17,17 @@ class ClientAPI(object):
         if os.path.exists(workdir):
             os.chdir(workdir)
         else:
-            job.error("couldn't find work dir")
+            job.setError("couldn't find working dir")
+            return False
         
         #run tasks in order
         tasks = job.getTasks()
         for task in tasks:
-            result = self.runSystemCommand(task.getCommandLine())
-            task.setOutput(result)
+            returncode, output = self.runSystemCommand(task.makeCommand())
+            if not output == None:
+                task.setOutput(output)
+            if not returncode == None:
+                task.setReturnCode(returncode)
 
 #        os.chdir("..")
         return True

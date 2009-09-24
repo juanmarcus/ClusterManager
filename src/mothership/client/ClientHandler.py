@@ -44,11 +44,11 @@ class ClientHandler(object):
         fullcmd = self.makeSSHCommand(cmd)
         self.logger.debug("running ssh command: %s" % fullcmd)
         if waitForResult:
-            result = run_command(fullcmd)
+            _, output = run_command(fullcmd)
         else:
             os.system(fullcmd)
-            result = True
-        return result
+            output = True
+        return output
     
     def checkAgent(self):
         self.logger.info("checking for agent")
@@ -72,7 +72,7 @@ class ClientHandler(object):
     def installAgent(self):
         self.logger.info("creating dir: %s" % self.info.clientpath)
         self.runSSHCommand("mkdir %s" % self.info.clientpath)
-        self.sendFileSSH("clientpackage.tar.gz")
+        self.sendFileSSH("clientpackage.tar.gz", self.info.clientpath)
         self.logger.info("installing agent")
         self.runSSHCommand('"cd %s; tar -xzf %s"' % (self.info.clientpath, "clientpackage.tar.gz"))
     
@@ -82,7 +82,7 @@ class ClientHandler(object):
 
     def sendFile(self, file):
         path = file.getServerPath()
-        self.sendFileSSH(path)
+        self.sendFileSSH(path, self.info.workingdir)
         
     def fetchFile(self, file):
         self.fetchFileSSH(file.name, file.getServerPath())
@@ -93,14 +93,14 @@ class ClientHandler(object):
     def removeFileSSH(self, filename):
         self.runSSHCommand('"cd %s; rm %s"' % (self.info.workingdir, filename))
         
-    def sendFileSSH(self, filename):
+    def sendFileSSH(self, filename, destdir):
         parts = []
         parts.append("scp")
         parts.append(filename)
         if self.info.username:
-            parts.append("%s@%s:%s" % (self.info.username, self.info.name, self.info.workingdir))
+            parts.append("%s@%s:%s" % (self.info.username, self.info.name, destdir))
         else:
-            parts.append("%s:%s" % (self.info.name, self.info.workingdir))
+            parts.append("%s:%s" % (self.info.name, destdir))
         os.system(" ".join(parts))
 
     def fetchFileSSH(self, remotefilename, localpath):
