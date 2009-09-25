@@ -7,13 +7,19 @@ from mothership.job.Task import Task
 
 class Job():
     '''
-    Contains a list of commands and an associated set of input and output files.
+    Contains a list of tasks and an associated set of files.
     '''
     def __init__(self, name):
         self.files = {}
         self.tasks = []
         self.name = name
-        self.error = None
+        self.results = None
+    
+    def setResults(self, results):
+        self.results = results
+        
+    def getResults(self):
+        return self.results
     
     def getName(self):
         return self.name
@@ -24,16 +30,10 @@ class Job():
     def addFile(self, file):
         self.files[file.getName()] = file
         
-    def addTask(self, cmd, pars = None):
+    def addTask(self, cmd, pars=None):
         task = Task(cmd, pars)
         self.tasks.append(task)
         return task
         
     def getFiles(self):
         return self.files
-    
-    def setError(self, msg):
-        self.error = msg
-        
-    def getError(self):
-        return self.error

@@ -4,6 +4,7 @@ Created on Sep 16, 2009
 @author: Juan Ibiapina
 '''
 from utils.system_utils import run_command
+from client.JobResults import JobResults
 import os
 
 class ClientAPI(object):
@@ -12,25 +13,28 @@ class ClientAPI(object):
         return run_command(cmd)
 
     def runJob(self, job):
-        #check and change to working dir
-        workdir =self.info.getWorkingDir() 
+        # Create object to return results
+        results = JobResults()
+        
+        # Check and change to working directory
+        workdir = self.info.getWorkingDir() 
+        
         if os.path.exists(workdir):
             os.chdir(workdir)
+            
+            #run tasks in order
+            tasks = job.getTasks()
+            for task in tasks:
+                returncode, output = self.runSystemCommand(task.getCommandLine())
+                results.addTaskResult(returncode, output)
+            results.setJobResult(True)
         else:
-            job.setError("couldn't find working dir")
-            return False
-        
-        #run tasks in order
-        tasks = job.getTasks()
-        for task in tasks:
-            returncode, output = self.runSystemCommand(task.makeCommand())
-            if not output == None:
-                task.setOutput(output)
-            if not returncode == None:
-                task.setReturnCode(returncode)
+            results.setJobResult(False)
+            results.setJobError("couldn't find working dir")
 
-#        os.chdir("..")
-        return True
+        #os.chdir("..")
+        # Return results
+        return results
 
     def setClientInfo(self, info):
         self.info = info

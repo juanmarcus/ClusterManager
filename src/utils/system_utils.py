@@ -12,5 +12,5 @@ def run_command(cmd):
     p = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
     p.wait()
     returncode = p.returncode
-    out = " ".join(p.stdout.readlines())
+    out = "".join(p.stdout.readlines())
     return returncode, out

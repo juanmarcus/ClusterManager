@@ -37,20 +37,19 @@ class Worker(Thread):
                     
             #send job to client
             self.logger.info("running job")
-            result = self.clientapi.runJob(job)
+            results = self.clientapi.runJob(job)
+            job.setResults(results)
             
-            #check job result
-            if not result:
-                self.logger.error(job.getError())
+            #check job results
+            if not results.getJobResult():
+                self.logger.error(results.getJobError())
             else:
                 self.logger.info("job finished fine")
-            
-            #check task results
-            tasks = job.getTasks()
-            for n,task in zip(xrange(100),tasks):
-                returncode = task.getReturnCode()
-                output = task.getOutput()
-                self.logger.info("task %d: return code: ; output: %s"%(n, output))
+                #check task results
+                taskresults = results.getTaskResults()
+                for tn, tresult in zip(xrange(128), taskresults):
+                    self.logger.info("task %d: return code: %d; output:\n%s" % (tn, tresult[0], tresult[1]))
+                    pass
             
             self.logger.info("checking output files")
             #receiving and deleting files

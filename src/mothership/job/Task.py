@@ -9,8 +9,6 @@ class Task(object):
         self.cmd = cmd
         self.pars = pars
         self.issyscmd = False
-        self.output = None
-        self.returncode = None
         
     def setSystemCommand(self, bool):
         self.issyscmd = bool
@@ -29,15 +27,3 @@ class Task(object):
             parts.append(self.pars)
         
         return " ".join(parts)
-
-    def setOutput(self, output):
-        self.output = output
-    
-    def setReturnCode(self, value):
-        self.returncode = value
-        
-    def getOutput(self):
-        return self.output
-    
-    def getReturnCode(self):
-        return self.returncode

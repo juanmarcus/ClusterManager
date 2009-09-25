@@ -2,8 +2,6 @@ Bugfixes
 	- Clients don't shutdown correctly when a error occurs.
 		- Handle local errors
 		- Handle remote errors
-	- Agent is not installing
-	- Reading command result and output is not working
 
 Features
 	- Generalize SSH calls to any system
