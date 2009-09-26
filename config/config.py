@@ -5,7 +5,7 @@ def config(api):
     host = api.addClient("illidan")
 #    host.setUserName("athena")
     host.setWorkingDir("/home/juanmarcus/tmp")
-#    host.setWorkload(2)
+    host.setWorkload(2)
     #host.setDisplay("0")
     
     

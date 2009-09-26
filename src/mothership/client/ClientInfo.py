@@ -13,6 +13,10 @@ class ClientInfo(object):
         self.display = "0"
         self.clientpath = ".cmanager/"
         self.workingdir = "."
+        self.workload = 1
+
+    def setWorkload(self, load):
+        self.workload = load
 
     def setClientPath(self, path):
         if not path.endswith("/"):
@@ -27,6 +31,9 @@ class ClientInfo(object):
         
     def setWorkingDir(self, path):
         self.workingdir = path
+        
+    def getWorkload(self):
+        return self.workload
         
     def getName(self):
         return self.name
