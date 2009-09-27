@@ -5,6 +5,7 @@ Bugfixes
 
 Features
 	- Generalize SSH calls to any system
+	- Run several ssh commands in one connection
 	- Create local clients
 	- Manage client workload
 		- Several jobs per client

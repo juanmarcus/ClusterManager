@@ -1,5 +1,6 @@
 from mothership.client.ClientHandler import ClientHandler
 from mothership.client.ClientInfo import ClientInfo
+from utils.ssh_utils import checkAgent, removeAgent, installAgent
 import logging
 
 class ClientManager(object):
@@ -25,17 +26,17 @@ class ClientManager(object):
         if name == ":all":
             self.logger.info("trying to start all clients")
             for client in self.clients.values():
-                if not client.checkAgent():
-                    client.removeAgent()
-                    client.installAgent()
+                if not checkAgent(client):
+                    removeAgent(client)
+                    installAgent(client)
                 client.start()
         else:
             if self.clients.has_key(name):
                 self.logger.info("trying to start client %s" % name)
                 client = self.clients[name]
-                if not client.checkAgent():
-                    client.removeAgent()
-                    client.installAgent()
+                if not checkAgent(client):
+                    removeAgent(client)
+                    installAgent(client)
                 client.start()
             else:
                 self.logger.warning("client %s not configured" % name)
@@ -57,12 +58,12 @@ class ClientManager(object):
         if name == ":all":
             self.logger.info("trying to install agent on all clients")
             for client in self.clients.values():
-                client.installAgent()
+                installAgent(client)
         else:
             if self.clients.has_key(name):
                 self.logger.info("trying to install agent on client %s" % name)
                 client = self.clients[name]
-                client.installAgent()
+                installAgent(client)
             else:
                 self.logger.warning("client %s not configured" % name)
                 
@@ -70,12 +71,12 @@ class ClientManager(object):
         if name == ":all":
             self.logger.info("trying to remove agent from all clients")
             for client in self.clients.values():
-                client.removeAgent()
+                removeAgent(client)
         else:
             if self.clients.has_key(name):
                 self.logger.info("trying to remove agent from client %s" % name)
                 client = self.clients[name]
-                client.removeAgent()
+                removeAgent(client)
             else:
                 self.logger.warning("client %s not configured" % name)
 
