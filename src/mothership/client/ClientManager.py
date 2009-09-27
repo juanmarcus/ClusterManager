@@ -79,29 +79,3 @@ class ClientManager(object):
                 removeAgent(client)
             else:
                 self.logger.warning("client %s not configured" % name)
-
-    def turnOnMonitor(self, name):
-        if name == ":all":
-            self.logger.info("trying to turn on all monitors")
-            for host in self.clients.values():
-                host.turnOnMonitor()
-        else:
-            if self.clients.has_key(name):
-                self.logger.info("trying to turn on monitor on %s" % name)
-                host = self.clients[name]
-                host.turnOnMonitor()
-            else:
-                self.logger.warning("client %s not configured" % name)
-                
-    def turnOffMonitor(self, name):
-        if name == ":all":
-            self.logger.info("trying to turn off all monitors")
-            for host in self.clients.values():
-                host.turnOffMonitor()
-        else:
-            if self.clients.has_key(name):
-                self.logger.info("trying to turn off monitor on %s" % name)
-                host = self.clients[name]
-                host.turnOffMonitor()
-            else:
-                self.logger.warning("client %s not configured" % name)

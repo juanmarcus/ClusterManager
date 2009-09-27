@@ -46,9 +46,3 @@ class ScriptAPI(object):
         
     def removeAgent(self, name = ":all"):
         self.clientmanager.removeAgent(name)
-        
-    def turnOnMonitor(self, name = ":all"):
-        self.clientmanager.turnOnMonitor(name)
-        
-    def turnOffMonitor(self, name = ":all"):
-        self.clientmanager.turnOffMonitor(name)
