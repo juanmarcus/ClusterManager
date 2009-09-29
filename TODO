@@ -13,6 +13,8 @@ Features
 	- Remote log
 	- Auto log errors
 	- Refeed Jobs
+	- Start the Name server automatically
+	- Keep agents open on clients
 
 Incomplete Features
 	- Callback object
