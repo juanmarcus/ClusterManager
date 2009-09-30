@@ -13,26 +13,26 @@ class Runner(object):
         self.logger.debug("initializing")
         self.controller = controller
         self.jobmanager = self.controller.getJobManager()
-        self.clientmanager = self.controller.getClientManager()
+        self.nodemanager = self.controller.getNodeManager()
         
     def runAllJobs(self):
         self.logger.info("starting workers")
         joblist = self.jobmanager.getJobList()
-        clients = self.clientmanager.getClients()
+        nodes = self.nodemanager.getNodes()
         
-        #creates a queue of jobs
+        # Create a queue of jobs
         self.queue = Queue()
         for job in joblist:
             self.queue.put(job)
         
-        #creates workers for each client and start them
+        # Create workers for each node and start them
         self.workers = []
-        for client in clients.values():
-            worker = Worker(client, self.queue)
+        for node in nodes.values():
+            worker = Worker(node, self.queue, self.controller)
             self.workers.append(worker)
             worker.start()
             
-        #wait for all workers to finish
+        # Wait for all jobs to be processed
         self.logger.info("waiting for completion")
         self.queue.join()
         self.logger.info("all jobs completed")

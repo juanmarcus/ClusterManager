@@ -21,14 +21,14 @@ class MainWindow(QtGui.QWidget):
 #        self.mainLayout.addWidget(self.modulelist)
         
         #start button
-        button = QtGui.QPushButton("Start")
+        button = QtGui.QPushButton("Start Nodes")
         self.mainLayout.addWidget(button)
-        self.connect(button, QtCore.SIGNAL("clicked()"), self.startClients)
+        self.connect(button, QtCore.SIGNAL("clicked()"), self.startAllNodes)
         
         #stop button
-        button = QtGui.QPushButton("Stop")
+        button = QtGui.QPushButton("Stop Nodes")
         self.mainLayout.addWidget(button)
-        self.connect(button, QtCore.SIGNAL("clicked()"), self.stopClients)
+        self.connect(button, QtCore.SIGNAL("clicked()"), self.stopAllNodes)
         
         #install agent
         button = QtGui.QPushButton("Install agent")
@@ -40,21 +40,28 @@ class MainWindow(QtGui.QWidget):
         self.mainLayout.addWidget(button)
         self.connect(button, QtCore.SIGNAL("clicked()"), self.removeAgent)
         
+        # Create package
+        button = QtGui.QPushButton("Create package")
+        self.mainLayout.addWidget(button)
+        self.connect(button, QtCore.SIGNAL("clicked()"), self.createPackage)
+        
     def installAgent(self):
-        self.emit(QtCore.SIGNAL("installAgent"), ":all")
+        self.emit(QtCore.SIGNAL("installAgent"))
             
     def removeAgent(self):
-        self.emit(QtCore.SIGNAL("removeAgent"), ":all")
+        self.emit(QtCore.SIGNAL("removeAgent"))
         
-    def startClients(self):
-        self.emit(QtCore.SIGNAL("startClient"), ":all")
+    def startAllNodes(self):
+        self.emit(QtCore.SIGNAL("startAllNodes"))
         
-    def stopClients(self):
-        self.emit(QtCore.SIGNAL("stopClient"), ":all")
+    def stopAllNodes(self):
+        self.emit(QtCore.SIGNAL("stopAllNodes"))
+        
+    def createPackage(self):
+        self.emit(QtCore.SIGNAL("createPackage"))
         
 if __name__ == "__main__":
     import sys
-    from PyQt4 import QtGui
     app = QtGui.QApplication(sys.argv)
     window = MainWindow()
     window.show()

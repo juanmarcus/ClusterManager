@@ -6,22 +6,22 @@ Created on Sep 27, 2009
 from utils.system_utils import run_command
 import os
 
-def makeSSHBaseCommand(client):
+def makeSSHBaseCommand(node):
     parts = []
     parts.append("ssh")
-    if client.info.username:
-        parts.append("-l %s" % client.info.username)
-    parts.append("%s" % client.info.name)
+    if node.info.username:
+        parts.append("-l %s" % node.info.username)
+    parts.append("%s" % node.info.name)
     return parts
 
-def makeSSHCommand(client, cmd):
-    parts = makeSSHBaseCommand(client)
+def makeSSHCommand(node, cmd):
+    parts = makeSSHBaseCommand(node)
     parts.append(cmd)
     return " ".join(parts)
 
-def runSSHCommand(client, cmd, waitForResult=False):
-    fullcmd = makeSSHCommand(client, cmd)
-#    client.logger.debug("running ssh command: %s" % fullcmd)
+def runSSHCommand(node, cmd, waitForResult=False):
+    fullcmd = makeSSHCommand(node, cmd)
+#    node.logger.debug("running ssh command: %s" % fullcmd)
     if waitForResult:
         _, output = run_command(fullcmd)
     else:
@@ -29,56 +29,56 @@ def runSSHCommand(client, cmd, waitForResult=False):
         output = True
     return output
 
-def checkAgent(client):
-#    client.logger.info("checking for agent")
-    result = runSSHCommand(client, "ls '%sclient.py' 2>/dev/null" % client.info.clientpath, True)
+def checkAgent(node):
+#    node.logger.info("checking for agent")
+    result = runSSHCommand(node, "ls '%snode.py' 2>/dev/null" % node.info.agentpath, True)
 #    if result:
-#        client.logger.info("agent found")
+#        node.logger.info("agent found")
 #    else:
-#        client.logger.info("agent not found")
+#        node.logger.info("agent not found")
     return result
 
-def startAgent(client):
-#    client.logger.info("starting agent")
-    cmd = '"DISPLAY=:%s python %sclient.py" &' % (client.info.display, client.info.clientpath)
-    runSSHCommand(client, cmd)
+def startAgent(node):
+#    node.logger.info("starting agent")
+    cmd = '"DISPLAY=:%s python %snode.py" &' % (node.info.display, node.info.agentpath)
+    runSSHCommand(node, cmd)
 
-def stopAgent(client):
-#    client.logger.info("stopping agent")
-    cmd = '"DISPLAY=:%s killall python" &' % (client.info.display)
-    runSSHCommand(client, cmd)
+def stopAgent(node):
+#    node.logger.info("stopping agent")
+    cmd = '"DISPLAY=:%s killall python" &' % (node.info.display)
+    runSSHCommand(node, cmd)
 
-def installAgent(client):
-#    client.logger.info("creating dir: %s" % client.info.clientpath)
-    runSSHCommand(client, "mkdir %s" % client.info.clientpath)
-    sendFileSSH(client, "clientpackage.tar.gz", client.info.clientpath)
-#    client.logger.info("installing agent")
-    runSSHCommand(client, '"cd %s; tar -xzf %s"' % (client.info.clientpath, "clientpackage.tar.gz"))
+def installAgent(node):
+#    node.logger.info("creating dir: %s" % node.info.agentpath)
+    runSSHCommand(node, "mkdir %s" % node.info.agentpath)
+    sendFileSSH(node, "nodepackage.tar.gz", node.info.agentpath)
+#    node.logger.info("installing agent")
+    runSSHCommand(node, '"cd %s; tar -xzf %s"' % (node.info.agentpath, "nodepackage.tar.gz"))
 
-def removeAgent(client):
-#    client.logger.info("removing agent")
-    runSSHCommand(client, "rm -rf %s" % client.info.clientpath)
+def removeAgent(node):
+#    node.logger.info("removing agent")
+    runSSHCommand(node, "rm -rf %s" % node.info.agentpath)
     
-def removeFileSSH(client, filename):
-    runSSHCommand(client, '"cd %s; rm %s"' % (client.info.workingdir, filename))
+def removeFileSSH(node, filename):
+    runSSHCommand(node, '"cd %s; rm %s"' % (node.info.workingdir, filename))
     
-def sendFileSSH(client, filename, destdir):
+def sendFileSSH(node, filename, destdir):
     parts = []
     parts.append("scp")
     parts.append(filename)
-    if client.info.username:
-        parts.append("%s@%s:%s" % (client.info.username, client.info.name, destdir))
+    if node.info.username:
+        parts.append("%s@%s:%s" % (node.info.username, node.info.name, destdir))
     else:
-        parts.append("%s:%s" % (client.info.name, destdir))
+        parts.append("%s:%s" % (node.info.name, destdir))
     os.system(" ".join(parts))
 
-def fetchFileSSH(client, remotefilename, localpath):
+def fetchFileSSH(node, remotefilename, localpath):
     parts = []
     parts.append("scp")
-    dest = os.path.join(client.info.workingdir, remotefilename)
-    if client.info.username:
-        parts.append("%s@%s:%s" % (client.info.username, client.info.name, dest))
+    dest = os.path.join(node.info.workingdir, remotefilename)
+    if node.info.username:
+        parts.append("%s@%s:%s" % (node.info.username, node.info.name, dest))
     else:
-        parts.append("%s:%s" % (client.info.name, dest))
+        parts.append("%s:%s" % (node.info.name, dest))
     parts.append(localpath)
     os.system(" ".join(parts))

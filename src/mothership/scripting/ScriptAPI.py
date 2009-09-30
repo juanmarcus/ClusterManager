@@ -7,7 +7,7 @@ Created on Sep 11, 2009
 class ScriptAPI(object):
     def __init__(self, controller):
         self.controller = controller
-        self.clientmanager = self.controller.getClientManager()
+        self.nodemanager = self.controller.getNodeManager()
         self.jobmanager = self.controller.getJobManager()
         self.filemanager = self.controller.getFileManager()
         self.callback = None
@@ -32,17 +32,5 @@ class ScriptAPI(object):
     def runAllJobs(self):
         self.controller.runAllJobs()
             
-    def startAllClients(self):
-        self.clientmanager.startClient(":all")
-
-    def startClient(self, name):
-        self.clientmanager.startClient(name)
-        
-    def stopClient(self, name):
-        self.clientmanager.stopClient(name)
-        
-    def installAgent(self, name = ":all"):
-        self.clientmanager.installAgent(name)
-        
-    def removeAgent(self, name = ":all"):
-        self.clientmanager.removeAgent(name)
+    def startAllNodes(self):
+        self.nodemanager.startAllNodes()

@@ -1,21 +1,21 @@
-Bugfixes
-	- Clients don't shutdown correctly when a error occurs.
-		- Handle local errors
-		- Handle remote errors
+Node
+	- Log
+	- Create local clients
+	- Clean after execution
+	- Manage several connections 	
 
 Features
 	- Generalize SSH calls to any system
 	- Run several ssh commands in one connection
-	- Create local clients
 	- Manage client workload
 		- Several jobs per client
 		- Send files efficiently
-	- Remote log
 	- Auto log errors
 	- Refeed Jobs
-	- Start the Name server automatically
-	- Keep agents open on clients
-
+	- Make the name server optional
+		- Start the Name server automatically
+	- Handle command line arguments
+		
 Incomplete Features
 	- Callback object
 	

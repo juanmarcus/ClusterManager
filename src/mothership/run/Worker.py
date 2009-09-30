@@ -8,18 +8,20 @@ import Queue
 import logging
 
 class Worker(Thread):
-    def __init__(self, client, queue):
+    def __init__(self, node, queue, controller):
         Thread.__init__(self)
-        self.logger = logging.getLogger("Worker:%s" % client.getInfo().getName())
+        self.logger = logging.getLogger("Worker:%s" % node.getInfo().getName())
         self.logger.debug("initializing")
-        self.client = client
-        self.clientapi = self.client.getClientAPI()
+        self.node = node
+        self.remoteworker = node.createRemoteWorker()
         self.queue = queue
+        self.controller = controller
+        self.filemanager = self.controller.getFileManager()
         
     def run(self):
-        self.clientapi.setClientInfo(self.client.info)
+        self.remoteworker.setNodeInfo(self.node.info)
         while not self.queue.empty():
-            #get job
+            # Get a job
             try:
                 job = self.queue.get(True, 2)
             except Queue.Empty:
@@ -28,16 +30,15 @@ class Worker(Thread):
             self.logger.info("got job: %s" % jobname)
             self.logger.info("checking input files")
             
-            #check files and send to client
+            # Send files
             files = job.getFiles()
-            for name, file in files.items():
+            for file in files.values():
                 if file.hasAutoSend():
-                    self.logger.info("sending file: %s" % name)
-                    self.client.sendFile(file)
+                    self.filemanager.sendFile(self.node, file)
                     
-            #send job to client
+            # Run job and get results
             self.logger.info("running job")
-            results = self.clientapi.runJob(job)
+            results = self.remoteworker.runJob(job)
             job.setResults(results)
             
             #check job results
@@ -49,15 +50,14 @@ class Worker(Thread):
                 taskresults = results.getTaskResults()
                 for tn, tresult in zip(xrange(128), taskresults):
                     self.logger.info("task %d: return code: %d; output:\n%s" % (tn, tresult[0], tresult[1]))
-                    pass
             
             self.logger.info("checking output files")
             #receiving and deleting files
             for name, file in files.items():
                 if file.hasAutoFetch():
                     self.logger.info("fetching file: %s" % name)
-                    self.client.fetchFile(file)
+                    self.node.fetchFile(file)
                 if file.hasAutoRemove():
                     self.logger.info("removing file: %s" % name)
-                    self.client.removeFile(file)
+                    self.node.removeFile(file)
             self.queue.task_done()

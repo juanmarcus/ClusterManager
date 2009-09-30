@@ -1,40 +1,43 @@
-from mothership.client.ClientManager import ClientManager
-from mothership.job.JobManager import JobManager
-from mothership.file.FileManager import FileManager
 from mothership.config.ConfigProxy import ConfigProxy
-from utils.module_utils import load_module
+from mothership.file.FileManager import FileManager
+from mothership.job.JobManager import JobManager
+from mothership.node.NodeManager import NodeManager
 from mothership.run.Runner import Runner
-import sys
+from utils.module_utils import load_module
 import logging
+import sys
 
 class Controller(object):
     def __init__(self, configfile="config/config.py"):
-        #create file logger
+        # Create file logger
         LOG_FILENAME = "./log.txt"
         logging.basicConfig(filename=LOG_FILENAME, filemode="w", level=logging.DEBUG)
         
-        #create console logger
+        # Create console logger
         console = logging.StreamHandler(sys.stdout)
         console.setLevel(logging.INFO)
         formatter = logging.Formatter('%(name)-13s: %(levelname)-8s %(message)s')
         console.setFormatter(formatter)
         logging.getLogger('').addHandler(console)
         
-        #initialize
+        # Initialize
         self.logger = logging.getLogger("Controller")
         self.logger.debug("initializing")
         self.configfile = configfile
-        self.clientmanager = ClientManager()
+        self.nodemanager = NodeManager()
+
         self.jobmanager = JobManager()
         self.filemanager = FileManager()
+        
+        # Read configuration file
         self.readConfig()
     
     def stop(self):
-        self.clientmanager.stopClient(":all")
+        self.nodemanager.stopAllNodes()
         logging.shutdown()
 
-    def getClientManager(self):
-        return self.clientmanager
+    def getNodeManager(self):
+        return self.nodemanager
     
     def getJobManager(self):
         return self.jobmanager
@@ -50,40 +53,3 @@ class Controller(object):
     def runAllJobs(self):
         runner = Runner(self)
         runner.runAllJobs()
-        
-#    def addFile(self, filename):
-#        mfile = self.filemanager.addFile(filename)
-#        if mfile:
-#            self.emit(QtCore.SIGNAL("fileAdded"), mfile.getName())
-#    
-#    def sendFile(self, filename, hostname):
-#        if self.clients.has_key(hostname):
-#            host = self.clients[hostname]
-#            file = self.filemanager.getFile(filename)
-#            if file:
-#                host.sendFile(file)
-#            else:
-#                self.logger.error("file %s not configured" % filename)
-#        else:
-#            self.logger.error("host %s not configured" % hostname)
-            
-            
-            
-            
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            

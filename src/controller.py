@@ -1,7 +1,7 @@
 from PyQt4 import QtCore, QtGui
 from mothership.Controller import Controller
 from mothership.interface.MainWindow import MainWindow
-from mothership.scripting.ScriptAPI import ScriptAPI
+from mothership.ControllerAPI import ControllerAPI
 import sys
 
 #create app
@@ -11,20 +11,18 @@ app = QtGui.QApplication(sys.argv)
 controller = Controller()
 
 #create the controller api
-api = ScriptAPI(controller)
+api = ControllerAPI(controller)
 
 #create main window
 window = MainWindow()
 window.show()
 
 #connect window signals to api slots
-window.connect(window, QtCore.SIGNAL("startClient"), api.startClient)
-window.connect(window, QtCore.SIGNAL("stopClient"), api.stopClient)
+window.connect(window, QtCore.SIGNAL("startAllNodes"), api.startAllNodes)
+window.connect(window, QtCore.SIGNAL("stopAllNodes"), api.stopAllNodes)
 window.connect(window, QtCore.SIGNAL("installAgent"), api.installAgent)
 window.connect(window, QtCore.SIGNAL("removeAgent"), api.removeAgent)
-
-#create a callback object and connect to the interface
-#TODO
+window.connect(window, QtCore.SIGNAL("createPackage"), api.createPackage)
 
 #start the application
 app.exec_()

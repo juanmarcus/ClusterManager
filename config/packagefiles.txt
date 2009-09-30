@@ -1,8 +1,10 @@
-#list of files to generate client package
+#list of files to generate node package
 #one file per line
-client.py
-client/__init__.py
-client/ClientAPI.py
-client/JobResults.py
+node.py
+node/__init__.py
+node/LocalWorker.py
+node/JobResults.py
+node/NodeManager.py
+node/LocalFileManager.py
 utils/__init__.py
 utils/system_utils.py

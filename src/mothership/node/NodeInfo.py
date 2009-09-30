@@ -3,25 +3,25 @@ Created on Sep 16, 2009
 
 @author: Juan Ibiapina
 '''
-class ClientInfo(object):
+class NodeInfo(object):
     '''
-    Holds configuration for a client.
+    Holds configuration for a node.
     '''
     def __init__(self, name):
         self.name = name
         self.username = None
         self.display = "0"
-        self.clientpath = ".cmanager/"
+        self.agentpath = ".cmanager/"
         self.workingdir = "."
         self.workload = 1
 
     def setWorkload(self, load):
         self.workload = load
 
-    def setClientPath(self, path):
+    def setAgentPath(self, path):
         if not path.endswith("/"):
             path = path + "/"
-        self.clientpath = path
+        self.agentpath = path
         
     def setUserName(self, username):
         self.username = username
@@ -44,8 +44,8 @@ class ClientInfo(object):
     def getDisplay(self):
         return self.display
     
-    def getClientPath(self):
-        return self.clientpath
+    def getAgentPath(self):
+        return self.agentpath
     
     def getWorkingDir(self):
         return self.workingdir

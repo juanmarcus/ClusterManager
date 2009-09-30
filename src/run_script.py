@@ -1,7 +1,7 @@
 '''
 Created on Sep 14, 2009
 
-@author: juanmarcus
+@author: Juan Ibiapina
 '''
 from mothership.Controller import Controller
 from mothership.scripting.ScriptAPI import ScriptAPI
@@ -21,6 +21,9 @@ controller = Controller()
 api = ScriptAPI(controller)
 
 script = load_module(scriptfilename)
-script.run(api)
+try:
+    script.run(api)
+except Exception, e:
+    print "Error running script", e
 
 controller.stop()

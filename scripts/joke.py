@@ -26,7 +26,7 @@ def run(api):
     output = api.addFile(path="data/output.txt", autoSend=False, autoFetch=True)
     
     #create job
-    job1 = api.createJob("Accumulate and Detect")
+    job1 = api.createJob("Job 1")
     
     #add commands
 #    job1.addTask('accumulate_ga2h_point_line_naive', '-bounds 2 -90 90 -90 90 -delta 1 -inputdata "id220834478_input_data.dat" -outputmap "id220834478_job1_resulting_map.dat" >> id220834478_job1.log')
@@ -41,8 +41,8 @@ def run(api):
     job1.addFile(file2)
     job1.addFile(output)
     
-    #start all clients
-    api.startAllClients()
+    # Connect to nodes
+    api.startAllNodes()
     
     #run all jobs
     api.runAllJobs()
