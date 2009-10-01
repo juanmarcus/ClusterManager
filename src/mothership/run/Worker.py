@@ -19,7 +19,7 @@ class Worker(Thread):
         self.filemanager = self.controller.getFileManager()
         
     def run(self):
-        self.remoteworker.setNodeInfo(self.node.info)
+        self.remoteworker.init(self.node.info)
         while not self.queue.empty():
             # Get a job
             try:

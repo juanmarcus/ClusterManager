@@ -3,12 +3,17 @@ Created on Sep 28, 2009
 
 @author: juanmarcus
 '''
+import logging
 
 class LocalFileManager(object):
+    
     def __init__(self):
         self.localfiles = []
+        self.logger = logging.getLogger("FileManager")
+        self.logger.debug("initializing")
     
     def addFile(self, filename):
+        self.logger.info("adding file: %s" % filename)
         self.localfiles.append(filename)
         
     def hasFiles(self, files):

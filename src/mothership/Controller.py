@@ -23,9 +23,11 @@ class Controller(object):
         # Initialize
         self.logger = logging.getLogger("Controller")
         self.logger.debug("initializing")
+        
         self.configfile = configfile
+        
+        # Create managers
         self.nodemanager = NodeManager()
-
         self.jobmanager = JobManager()
         self.filemanager = FileManager()
         

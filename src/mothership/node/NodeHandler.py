@@ -8,21 +8,17 @@ class NodeHandler(object):
         self.info = info
         self.remotemanager = None
 
-    def getClientAPI(self):
-        return self.remotemanager    
-    
     def getInfo(self):
         return self.info
     
     def start(self):
-        self.remotemanager = Pyro.core.getProxyForURI("PYRONAME://:Default.%s" % self.info.name)
+        self.remotemanager = Pyro.core.getProxyForURI("PYROLOC://%s/%s" % (self.info.name, self.info.name))
             
     def stop(self):
         pass        
 
     def createRemoteWorker(self):
-        uri = self.remotemanager.createWorker()
-        remoteworker = Pyro.core.getProxyForURI(uri)
+        remoteworker = self.remotemanager.createWorker()
         return remoteworker
 
     def getRemoteManager(self):
