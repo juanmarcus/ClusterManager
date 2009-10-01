@@ -70,7 +70,7 @@ class FileManager(object):
             path = file.getServerPath()
             sendFileSSH(node, path, node.info.workingdir)
             remotemanager = node.getRemoteManager()
-            remotemanager.addFile(file.name)
+            remotemanager.addFile(file.name, node.uniqueid)
         thread.start_new_thread(send_thread, (node, file))
 
     def fetchFile(self, node, file):

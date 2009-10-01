@@ -14,28 +14,35 @@ class NodeManager(object):
         self.logger = logging.getLogger("NodeManager")
         self.logger.debug("initializing")
         self.daemon = daemon
-        self.localfilemanager = LocalFileManager()
-        self.workers = []
+        self.data = {}
+#        self.localfilemanager = LocalFileManager()
+#        self.workers = []
     
-    def createWorker(self):
-        self.logger.info("creating local worker")
+    def createWorker(self, id):
+        self.logger.info("creating local worker: %s" % id)
         localworker = LocalWorker()
-        localworker.setLocalFileManager(self.localfilemanager)
         base = Pyro.core.ObjBase()
         base.delegateTo(localworker)
         self.daemon.connect(base)
         proxy = base.getProxy()
-        self.workers.append(proxy)
+        if self.data.has_key(id):
+            self.data[id]["workers"].append(proxy)
+        else:
+            self.data[id] = {}
+            self.data[id]["workers"] = [proxy]
+            self.data[id]["filemanager"] = LocalFileManager()
+        localworker.setLocalFileManager(self.data[id]["filemanager"])
         return proxy
     
-    def addFile(self, name):
+    def addFile(self, name, id):
         self.logger.info("registering file transfer completion: %s" % name)
-        self.localfilemanager.addFile(name)
+        self.data[id]["filemanager"].addFile(name)
         
-    def stop(self):
-        self.localfilemanager.clean()
-        self.logger.info("disconnecting all workers")
-        for proxy in self.workers:
-            self.daemon.disconnect(proxy)
-            del proxy
-        self.workers = []
+    def stop(self, id):
+        if self.data.has_key(id):
+            self.data[id]["filemanager"].clean()
+            self.data[id]["filemanager"] = None
+            self.logger.info("disconnecting all workers with id: %s" % id)
+            for proxy in self.data[id]["workers"]:
+                self.daemon.disconnect(proxy)
+                del proxy
