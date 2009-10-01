@@ -51,13 +51,13 @@ class Worker(Thread):
                 for tn, tresult in zip(xrange(128), taskresults):
                     self.logger.info("task %d: return code: %d; output:\n%s" % (tn, tresult[0], tresult[1]))
             
-            self.logger.info("checking output files")
             #receiving and deleting files
-            for name, file in files.items():
+            self.logger.info("checking output files")
+            for file in files.values():
                 if file.hasAutoFetch():
-                    self.logger.info("fetching file: %s" % name)
-                    self.node.fetchFile(file)
+                    self.filemanager.fetchFile(self.node, file)
                 if file.hasAutoRemove():
-                    self.logger.info("removing file: %s" % name)
-                    self.node.removeFile(file)
+                    self.filemanager.removeFile(self.node, file)
+            self.logger.info("file transfers completed")
             self.queue.task_done()
+        self.logger.info("done")
