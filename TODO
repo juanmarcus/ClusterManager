@@ -1,5 +1,4 @@
 Node
-	- Log
 	- Create local clients
 	- Clean after execution
 	- Manage several connections 	
@@ -7,9 +6,6 @@ Node
 Features
 	- Generalize SSH calls to any system
 	- Run several ssh commands in one connection
-	- Manage client workload
-		- Several jobs per client
-		- Send files efficiently
 	- Auto log errors
 	- Refeed Jobs
 	- Make the name server optional

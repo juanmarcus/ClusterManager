@@ -28,9 +28,10 @@ class Runner(object):
         # Create workers for each node and start them
         self.workers = []
         for node in nodes.values():
-            worker = Worker(node, self.queue, self.controller)
-            self.workers.append(worker)
-            worker.start()
+            for i in range(node.info.getWorkload()):
+                worker = Worker(i, node, self.queue, self.controller)
+                self.workers.append(worker)
+                worker.start()
             
         # Wait for all jobs to be processed
         self.logger.info("waiting for completion")

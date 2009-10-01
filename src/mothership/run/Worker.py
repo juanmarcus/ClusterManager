@@ -8,11 +8,12 @@ import Queue
 import logging
 
 class Worker(Thread):
-    def __init__(self, node, queue, controller):
+    def __init__(self, number, node, queue, controller):
         Thread.__init__(self)
-        self.logger = logging.getLogger("Worker:%s" % node.getInfo().getName())
+        self.logger = logging.getLogger("Worker:%s:%d" % (node.getInfo().getName(), number))
         self.logger.debug("initializing")
         self.node = node
+        self.number = number
         self.remoteworker = node.createRemoteWorker()
         self.queue = queue
         self.controller = controller
