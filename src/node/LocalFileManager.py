@@ -15,6 +15,10 @@ class LocalFileManager(object):
     def addFile(self, filename):
         self.logger.info("adding file: %s" % filename)
         self.localfiles.append(filename)
+
+    def clean(self):
+        self.logger.info("cleaning")
+        self.localfiles = []
         
     def hasFiles(self, files):
         '''

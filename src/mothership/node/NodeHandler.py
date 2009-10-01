@@ -15,7 +15,8 @@ class NodeHandler(object):
         self.remotemanager = Pyro.core.getProxyForURI("PYROLOC://%s/%s" % (self.info.name, self.info.name))
             
     def stop(self):
-        pass        
+        self.remotemanager._setOneway("stop")
+        self.remotemanager.stop()        
 
     def createRemoteWorker(self):
         remoteworker = self.remotemanager.createWorker()
