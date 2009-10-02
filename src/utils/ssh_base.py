@@ -4,10 +4,21 @@ Created on Oct 2, 2009
 @author: juanmarcus
 '''
 import os
+import platform
+
+if platform.system() == "Windows":
+    ssh_exec = "plink -ssh"
+else:
+    ssh_exec = "ssh"        
+    
+if platform.system() == "Windows":
+    scp_exec = "pscp"
+else:
+    scp_exec = "scp"
 
 def makeSSHBaseCommand(node):
     parts = []
-    parts.append("ssh")
+    parts.append(ssh_exec)
     if node.info.username:
         parts.append("-l %s" % node.info.username)
     parts.append("%s" % node.info.name)
@@ -20,7 +31,7 @@ def makeSSHCommand(node, cmd):
 
 def sendFileSSH(node, filename, destdir):
     parts = []
-    parts.append("scp")
+    parts.append(scp_exec)
     parts.append(filename)
     if node.info.username:
         parts.append("%s@%s:%s" % (node.info.username, node.info.name, destdir))
@@ -30,7 +41,7 @@ def sendFileSSH(node, filename, destdir):
 
 def fetchFileSSH(node, remotefilename, localpath):
     parts = []
-    parts.append("scp")
+    parts.append(scp_exec)
     dest = os.path.join(node.info.workingdir, remotefilename)
     if node.info.username:
         parts.append("%s@%s:%s" % (node.info.username, node.info.name, dest))
