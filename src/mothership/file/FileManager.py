@@ -4,14 +4,13 @@ Created on Sep 14, 2009
 @author: juanmarcus
 '''
 
-from threading import Thread
-
 from mothership.file.ManagedFile import ManagedFile
-from utils.ssh_utils import sendFileSSH, fetchFileSSH, removeFileSSH
-import threading
-import thread
+from utils.ssh_base import sendFileSSH, fetchFileSSH
+from utils.ssh_utils import removeFileSSH
 import logging
 import os.path
+import thread
+import threading
 
 class FileManager(object):
     def __init__(self):

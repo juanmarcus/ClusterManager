@@ -1,1 +1,5 @@
-dummy readme
+ClusterManager
+==============
+
+Dependencies
+	- Pyro 3.9.1
